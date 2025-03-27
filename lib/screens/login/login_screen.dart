@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mediquick_pbl/screens/login/forgot_password_screen.dart';
 import 'package:mediquick_pbl/screens/register/register_screen.dart';
+import 'package:mediquick_pbl/screens/dashboard/dashboard_screen.dart'; // Import your dashboard screen
 import 'package:mediquick_pbl/widget/login/custom_text_field.dart';
 import 'package:mediquick_pbl/widget/login/social_login_button.dart';
 
@@ -13,11 +15,46 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>(); // Key untuk validasi form
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _isLoading = false;
 
-  void _validateAndLogin() {
+  void _validateAndLogin() async {
     if (_formKey.currentState!.validate()) {
-      print("Login Berhasil");
+      setState(() => _isLoading = true);
+
+      try {
+        UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim(),
+        );
+
+        if (userCredential.user != null) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => DashboardScreen()), // Navigate to dashboard
+          );
+        }
+      } on FirebaseAuthException catch (e) {
+        _showErrorDialog(e.message ?? "Terjadi kesalahan saat login");
+      } finally {
+        setState(() => _isLoading = false);
+      }
     }
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Login Gagal'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            child: const Text('OK'),
+            onPressed: () => Navigator.of(ctx).pop(),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -102,8 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder:
-                                  (context) => const ForgotPasswordScreen(),
+                              builder: (context) => const ForgotPasswordScreen(),
                             ),
                           );
                         },
@@ -124,7 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: _validateAndLogin,
+                      onPressed: _isLoading ? null : _validateAndLogin,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xFF6482AD),
                         padding: EdgeInsets.symmetric(vertical: 14),
@@ -132,14 +168,23 @@ class _LoginScreenState extends State<LoginScreen> {
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      child: Text(
-                        "Masuk",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
+                      child: _isLoading
+                          ? const SizedBox(
+                              width: 24,
+                              height: 24,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 2,
+                              ),
+                            )
+                          : Text(
+                              "Masuk",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
                     ),
                   ),
 

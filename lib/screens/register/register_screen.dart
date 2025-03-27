@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:mediquick_pbl/screens/login/login_screen.dart';
 import 'package:mediquick_pbl/widget/register/register_input_field.dart';
 import 'package:mediquick_pbl/widget/register/register_social_button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
+import 'package:mediquick_pbl/service/auth_service.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -11,15 +15,75 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  final _formKey = GlobalKey<FormState>(); // GlobalKey untuk validasi form
+  final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _isLoading = false;
 
-  void _validateAndRegister() {
+  Future<void> _validateAndRegister() async {
     if (_formKey.currentState!.validate()) {
-      print("Registrasi Berhasil");
+      setState(() => _isLoading = true);
+
+      try {
+        final authService = Provider.of<AuthService>(context, listen: false);
+        User? user = await authService.signUp(
+          _emailController.text.trim(),
+          _passwordController.text.trim(),
+          _nameController.text.trim(),
+        );
+
+        if (user != null) {
+          _showSuccessDialog(); // Tampilkan pop-up sukses
+        }
+      } on FirebaseAuthException catch (e) {
+        _showErrorDialog(e.message ?? "Terjadi kesalahan saat registrasi");
+      } finally {
+        if (mounted) {
+          setState(() => _isLoading = false);
+        }
+      }
     }
+  }
+
+  void _showSuccessDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false, // User harus tekan OK untuk menutup
+      builder: (ctx) => AlertDialog(
+        title: const Text('Registrasi Berhasil'),
+        content: const Text('Akun Anda berhasil dibuat. Silakan login.'),
+        actions: [
+          TextButton(
+            child: const Text('OK'),
+            onPressed: () {
+              // Tutup dialog dan navigasi ke login
+              Navigator.of(ctx).pop();
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => LoginScreen()),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Registrasi Gagal'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            child: const Text('OK'),
+            onPressed: () => Navigator.of(ctx).pop(),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -30,7 +94,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: SingleChildScrollView(
             child: Form(
-              key: _formKey, // Tambahkan Form dengan GlobalKey
+              key: _formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -68,8 +132,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     icon: Icons.email,
                     hint: "Email",
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
+                      if (value == null || value.isEmpty)
                         return "Email harus diisi";
+                      if (!RegExp(
+                        r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                      ).hasMatch(value)) {
+                        return "Format email tidak valid";
                       }
                       return null;
                     },
@@ -82,15 +150,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     hint: "Kata Sandi",
                     isPassword: true,
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
+                      if (value == null || value.isEmpty)
                         return "Kata sandi harus diisi";
-                      }
+                      if (value.length < 6) return "Minimal 6 karakter";
                       return null;
                     },
                   ),
                   const SizedBox(height: 20),
 
-                  // Tombol Daftar
+                  // Daftar Button
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
@@ -101,16 +169,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      onPressed:
-                          _validateAndRegister, // Validasi sebelum daftar
-                      child: const Text(
-                        "Daftar",
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      onPressed: _isLoading ? null : _validateAndRegister,
+                      child: _isLoading
+                          ? const SizedBox(
+                              width: 24,
+                              height: 24,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 2,
+                              ),
+                            )
+                          : const Text(
+                              "Daftar",
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                     ),
                   ),
                   const SizedBox(height: 20),

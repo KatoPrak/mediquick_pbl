@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'screens/splash_screen.dart';
 import 'firebase_options.dart'; // Pastikan file ini sudah di-generate
+import 'package:provider/provider.dart';
+import 'service/auth_service.dart'; // Pastikan Anda memiliki AuthService yang sesuai
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -52,13 +54,20 @@ class MediQuick extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+    return MultiProvider(
+      providers: [
+        // Menambahkan Provider untuk AuthService
+        Provider<AuthService>(create: (_) => AuthService()),
+        // Tambahkan provider lain jika diperlukan
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        home: SplashScreen(),
       ),
-      home: SplashScreen(),
     );
   }
 }
