@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "53670484196",
+    "project_id": "mediquick-pbl",
+    "storage_bucket": "mediquick-pbl.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:53670484196:android:237c899f7d28e7e69634f1",
+        "android_client_info": {
+          "package_name": "com.example.mediquick_pbl"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtYNduE0k-9ZGB2rF9Ia7wqQxBquhqn5E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
