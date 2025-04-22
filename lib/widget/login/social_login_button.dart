@@ -21,7 +21,7 @@ class SocialLoginButton extends StatelessWidget {
         style: OutlinedButton.styleFrom(
           side: const BorderSide(color: Colors.black),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(20),
           ),
           padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
           backgroundColor: Colors.transparent,
@@ -29,7 +29,7 @@ class SocialLoginButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(iconPath, height: 24),
+            Image.asset(iconPath, height: 26),
             const SizedBox(width: 8),
             Text(
               text,

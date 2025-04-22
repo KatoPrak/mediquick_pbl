@@ -27,7 +27,10 @@ class RegisterInputField extends StatelessWidget {
         hintText: hint,
         filled: true,
         fillColor: Colors.transparent,
-        hintStyle: const TextStyle(color: Colors.black),
+        hintStyle: TextStyle(
+          color: Colors.grey[600],
+          fontWeight: FontWeight.bold,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: const BorderSide(color: Colors.black, width: 1),

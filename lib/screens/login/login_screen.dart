@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mediquick_pbl/screens/login/forgot_password_screen.dart';
+import 'package:mediquick_pbl/screens/navigasi_screen.dart';
 import 'package:mediquick_pbl/screens/register/register_screen.dart';
 import 'package:mediquick_pbl/widget/login/custom_text_field.dart';
 import 'package:mediquick_pbl/widget/login/social_login_button.dart';
@@ -16,6 +17,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _validateAndLogin() {
     if (_formKey.currentState!.validate()) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const MainScreen()),
+      );
       print("Login Berhasil");
     }
   }
@@ -37,11 +42,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     "Masuk",
                     style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 5),
+                  SizedBox(height: 10),
                   Text(
-                    "Masuk untuk pengalaman terbaik dengan MediQuick",
+                    "Masuk untuk pengalaman terbaik\ndengan MediQuick",
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
                       color: Colors.grey[600],
                     ),
@@ -94,7 +99,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       Row(
                         children: [
                           Checkbox(value: false, onChanged: (value) {}),
-                          Text("Ingat saya"),
+                          Text(
+                            "Ingat saya",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ],
                       ),
                       TextButton(
@@ -110,8 +121,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: const Text(
                           "Lupa kata sandi?",
                           style: TextStyle(
-                            color: Color(0xFF6482AD),
-                            decoration: TextDecoration.underline,
+                            color: Color(0xff3311F5),
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
@@ -135,7 +146,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Text(
                         "Masuk",
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 17,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
@@ -148,15 +159,22 @@ class _LoginScreenState extends State<LoginScreen> {
                   // Garis atau dengan
                   Row(
                     children: [
-                      Expanded(child: Divider(thickness: 3)),
+                      Expanded(
+                        child: Divider(thickness: 2, color: Colors.black),
+                      ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: Text(
                           "Atau dengan",
-                          style: TextStyle(color: Colors.black),
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                      Expanded(child: Divider(thickness: 3)),
+                      Expanded(
+                        child: Divider(thickness: 2, color: Colors.black),
+                      ),
                     ],
                   ),
 
@@ -188,7 +206,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("Belum punya akun?"),
+                        Text(
+                          "Belum punya akun?",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                         TextButton(
                           onPressed: () {
                             Navigator.pushReplacement(
@@ -200,7 +224,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                           child: Text(
                             "Daftar",
-                            style: TextStyle(color: Colors.blue),
+                            style: TextStyle(color: Color(0xFF3311F5)),
                           ),
                         ),
                       ],

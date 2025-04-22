@@ -20,16 +20,14 @@ class RegisterSocialButton extends StatelessWidget {
         onPressed: onPressed,
         style: OutlinedButton.styleFrom(
           side: const BorderSide(color: Colors.black),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
           backgroundColor: Colors.transparent,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(iconPath, height: 24),
+            Image.asset(iconPath, height: 26),
             const SizedBox(width: 8),
             Text(
               text,

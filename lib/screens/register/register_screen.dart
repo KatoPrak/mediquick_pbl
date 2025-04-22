@@ -38,16 +38,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     "Registrasi",
                     style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                   ),
-                  const SizedBox(height: 8),
-                  const Text(
-                    "Buat akun sekarang untuk menikmati semua fitur MediQuick",
+                  const SizedBox(height: 20),
+                  Text(
+                    "Buat akun sekarang untuk menikmati\nsemua fitur MediQuick",
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: Colors.grey,
+                      color: Colors.grey[600],
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 30),
 
                   // Input Fields
                   RegisterInputField(
@@ -70,6 +70,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return "Email harus diisi";
+                      } else if (!value.contains("@gmail.com")) {
+                        return "Email harus menggunakan @gmail.com";
                       }
                       return null;
                     },
@@ -118,15 +120,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   // Garis pembatas
                   Row(
                     children: [
-                      Expanded(child: Divider(thickness: 3)),
+                      Expanded(
+                        child: Divider(thickness: 2, color: Colors.black),
+                      ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: Text(
                           "Atau dengan",
-                          style: TextStyle(color: Colors.black),
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                      Expanded(child: Divider(thickness: 3)),
+                      Expanded(
+                        child: Divider(thickness: 2, color: Colors.black),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 20),
@@ -155,7 +164,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("Sudah Punya Akun?"),
+                        Text(
+                          "Sudah Punya Akun?",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                         TextButton(
                           onPressed: () {
                             Navigator.pushReplacement(
@@ -167,7 +182,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           },
                           child: Text(
                             "Masuk",
-                            style: TextStyle(color: Colors.blue),
+                            style: TextStyle(color: Color(0xFF3311F5)),
                           ),
                         ),
                       ],

@@ -47,7 +47,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
       validator: widget.validator,
       decoration: InputDecoration(
         hintText: widget.hintText,
-        hintStyle: TextStyle(color: Colors.grey[600]),
+        hintStyle: TextStyle(
+          color: Colors.grey[600],
+          fontWeight: FontWeight.bold,
+        ),
 
         //Kustomisasi border
         enabledBorder: OutlineInputBorder(
@@ -60,19 +63,20 @@ class _CustomTextFieldState extends State<CustomTextField> {
         ),
 
         //Ikon prefix
-        prefixIcon: widget.isPassword
-            ? GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _isObscured = !_isObscured;
-                  });
-                },
-                child: Icon(
-                  _isObscured ? Icons.visibility : Icons.visibility_off,
-                  color: widget.iconColor, // Warna ikon
-                ),
-              )
-            : widget.prefixIcon != null
+        prefixIcon:
+            widget.isPassword
+                ? GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _isObscured = !_isObscured;
+                    });
+                  },
+                  child: Icon(
+                    _isObscured ? Icons.visibility : Icons.visibility_off,
+                    color: widget.iconColor, // Warna ikon
+                  ),
+                )
+                : widget.prefixIcon != null
                 ? Icon(widget.prefixIcon, color: widget.iconColor)
                 : null,
       ),
