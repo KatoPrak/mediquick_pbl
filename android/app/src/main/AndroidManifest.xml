@@ -1,4 +1,13 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.mediquick_pbl">
+    
+    <uses-sdk
+        tools:overrideLibrary="io.flutter.plugins.firebase.auth"
+        android:minSdkVersion="23"
+        android:targetSdkVersion="34" />
+
     <application
         android:label="mediquick_pbl"
         android:name="${applicationName}"
