@@ -50,39 +50,41 @@ class _RegisterScreenState extends State<RegisterScreen> {
     showDialog(
       context: context,
       barrierDismissible: false, // User harus tekan OK untuk menutup
-      builder: (ctx) => AlertDialog(
-        title: const Text('Registrasi Berhasil'),
-        content: const Text('Akun Anda berhasil dibuat. Silakan login.'),
-        actions: [
-          TextButton(
-            child: const Text('OK'),
-            onPressed: () {
-              // Tutup dialog dan navigasi ke login
-              Navigator.of(ctx).pop();
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => LoginScreen()),
-              );
-            },
+      builder:
+          (ctx) => AlertDialog(
+            title: const Text('Registrasi Berhasil'),
+            content: const Text('Akun Anda berhasil dibuat. Silakan login.'),
+            actions: [
+              TextButton(
+                child: const Text('OK'),
+                onPressed: () {
+                  // Tutup dialog dan navigasi ke login
+                  Navigator.of(ctx).pop();
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginScreen()),
+                  );
+                },
+              ),
+            ],
           ),
-        ],
-      ),
     );
   }
 
   void _showErrorDialog(String message) {
     showDialog(
       context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Text('Registrasi Gagal'),
-        content: Text(message),
-        actions: [
-          TextButton(
-            child: const Text('OK'),
-            onPressed: () => Navigator.of(ctx).pop(),
+      builder:
+          (ctx) => AlertDialog(
+            title: const Text('Registrasi Gagal'),
+            content: Text(message),
+            actions: [
+              TextButton(
+                child: const Text('OK'),
+                onPressed: () => Navigator.of(ctx).pop(),
+              ),
+            ],
           ),
-        ],
-      ),
     );
   }
 
@@ -134,15 +136,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     validator: (value) {
                       if (value == null || value.isEmpty)
                         return "Email harus diisi";
-<<<<<<< HEAD
-                      } else if (!value.contains("@gmail.com")) {
-                        return "Email harus menggunakan @gmail.com";
-=======
                       if (!RegExp(
                         r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
                       ).hasMatch(value)) {
                         return "Format email tidak valid";
->>>>>>> 6a68d2e5e24ef7f5805e31a1b1eedeff5cea2469
                       }
                       return null;
                     },
@@ -175,23 +172,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                       onPressed: _isLoading ? null : _validateAndRegister,
-                      child: _isLoading
-                          ? const SizedBox(
-                              width: 24,
-                              height: 24,
-                              child: CircularProgressIndicator(
-                                color: Colors.white,
-                                strokeWidth: 2,
+                      child:
+                          _isLoading
+                              ? const SizedBox(
+                                width: 24,
+                                height: 24,
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                  strokeWidth: 2,
+                                ),
+                              )
+                              : const Text(
+                                "Daftar",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            )
-                          : const Text(
-                              "Daftar",
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
                     ),
                   ),
                   const SizedBox(height: 20),
